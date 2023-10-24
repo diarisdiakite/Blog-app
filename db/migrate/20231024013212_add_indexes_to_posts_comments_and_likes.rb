@@ -1,4 +1,4 @@
-class AddIndexesToPostsCommentsAndLikes < ActiveRecord::Migration[7.0]
+﻿class AddIndexesToPostsCommentsAndLikes < ActiveRecord::Migration[7.0]
   def change
     unless index_exists?(:comments, :user_id)
       add_index :comments, :user_id
