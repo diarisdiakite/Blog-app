@@ -3,14 +3,16 @@
   has_many :comments
   has_many :likes
 
-  # Create method that updates the comments counter for a post.
-  def update_comments_counter
-    update(comments_counter: comments.count)
+  after_save :update_posts_counter
+
+  # Create method that gets the comments counter for a post.
+  def find_comments_count
+    comments_counter
   end
 
-  # Create method that updates the likes counter for a post.
-  def update_likes_counter
-    update(likes_counter: likes.count)
+  # Create method that gets the likes counter for a post.
+  def find_likes_count
+    likes_counter
   end
 
   # Create a method which returns the 5 most recent comments for a given post.
@@ -24,10 +26,9 @@
 
       displayed_comments.each do |comment|
         truncated_text = comment.text[0, 50]
-        comment.text
 
         if comment.text.length > 50
-          puts "#{truncated_text} ...[Read more], #{comment.created_at} "
+          puts "#{truncated_text} ...[Read more], #{comment.created_at}"
         else
           puts "#{comment.text} #{comment.created_at}"
         end
@@ -35,5 +36,11 @@
     else
       puts 'There is no recent comment for this post'
     end
+  end
+
+  private
+
+  def update_posts_counter
+    author.increment!(:posts_counter)
   end
 end
