@@ -1,8 +1,10 @@
 class User < ApplicationRecord
   has_many :posts, foreign_key: 'author_id'
+  has_many :comments
+  has_many :likes
 
-  def update_posts_counter
-    update(posts_counter: posts.count)
+  def find_posts_count
+    posts_counter
   end
 
   # Create a method that returns the 3 most recent posts for a given user.
