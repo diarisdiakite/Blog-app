@@ -10,13 +10,13 @@ describe User, type: :model do
       expect(subject).to be_valid
     end
 
-    it 'is not valid without a nale' do
+    it 'is not valid without a name' do
       subject.name = nil
       expect(subject).to_not be_valid
     end
 
     it 'is not valid if posts_counter is not an integer' do
-      subject.comments_counter = 'string'
+      subject.posts_counter = 'string'
       expect(subject).to_not be_valid
     end
 
