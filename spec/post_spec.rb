@@ -3,17 +3,19 @@ require 'rails_helper'
 # frozen_string_literal: true
 
 describe Post, type: :model do
-  let(:author_1) { User.create(name: 'John', photo: 'photo_url', bio: 'A bio') }
+  let(:author) { User.create(name: 'John', photo: 'photo_url', bio: 'A bio') }
 
-  subject { Post.create(
-    author: author_1.id,
-    title: 'Hello there',
-    text: 'This is an amazing story',
-    comments_counter: 1, 
-    likes_counter: 0, 
-    created_at: '2023-10-26', 
-    updated_at: '2023-10-26'
-    ) }
+  subject do
+    Post.create(
+      author: author.id,
+      title: 'Hello there',
+      text: 'This is an amazing story',
+      comments_counter: 1,
+      likes_counter: 0,
+      created_at: '2023-10-26',
+      updated_at: '2023-10-26'
+    )
+  end
 
   describe 'validations' do
     it 'is not valid without a title' do
