@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # Create an index action
   def index
-    @uses = User.all
+    @users = User.all
   end
 
   # Create a show action
