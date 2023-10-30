@@ -2,7 +2,6 @@ class PostsController < ApplicationController
   before_action :set_user
   before_action :set_post, only: [:show]
 
-
   # Create an index action taking the user id as a parameter
   def index
     @posts = @user.posts
