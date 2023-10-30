@@ -9,8 +9,7 @@ class PostsController < ApplicationController
   end
 
   # create a show action
-  def show
-  end
+  def show; end
 
   private
 
