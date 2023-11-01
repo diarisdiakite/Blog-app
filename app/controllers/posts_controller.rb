@@ -5,10 +5,18 @@ class PostsController < ApplicationController
   # Create an index action taking the user id as a parameter
   def index
     @posts = @user.posts
+    @comments = []
+
+    @posts.each do |post|
+      comments = post.comments.limit(5)
+      @comments << comments
+    end
   end
 
   # create a show action
-  def show; end
+  def show
+    @post = Post.find(params[:id])
+  end
 
   private
 
