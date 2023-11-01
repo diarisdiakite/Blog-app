@@ -14,7 +14,7 @@
     <small class="post-count"></small>
   </div>
   <ul class="user-posts">
-    <% @user.posts.each do |post| %>
+    <% @posts.each do |post| %>
       <li class="user-post">
         <h3><%= post.title %></h3>
         <p><%= post.text %></p>
@@ -25,5 +25,5 @@
   </ul>
 </div>
 <div class="button">
-  <button>See all posts</button>
+  <button><%= link_to "See all posts", user_posts_path(@user) %></button>
 </div>
