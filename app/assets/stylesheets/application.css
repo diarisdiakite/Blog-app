@@ -4,8 +4,11 @@
   box-sizing: border-box;
 }
 
-button {
-  text-align: center;
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
 }
 
 .user-list {
@@ -53,6 +56,10 @@ button {
   padding: 1% 1% 0.2% 1%;
   border: 1px solid black;
   margin-bottom: 1%;
+}
+
+.bio {
+  height: 15rem;
 }
 
 .comments-posts-count {
