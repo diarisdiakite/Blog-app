@@ -7,5 +7,6 @@ class UsersController < ApplicationController
   # Create a show action
   def show
     @user = User.find(params[:id])
+    @posts = @user.posts.limit(3)
   end
 end
