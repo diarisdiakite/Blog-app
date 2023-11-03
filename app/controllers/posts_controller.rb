@@ -18,17 +18,13 @@ class PostsController < ApplicationController
     # @user = User.find(params[:user_id])
     # @user = current_user
     @post = Post.new
-
-    respond_to do |format|
-      format.html { render :new, locals: { post: @post, user: @user } }
-    end
   end
 
   def create
-    @post = current_user.posts.build(posts_params)
-
+    @post = current_user.posts.build(post_params)
+  
     if @post.save
-      redirect_to posts_path
+      redirect_to user_posts_path(current_user.id), notice: 'Post was successfully created'
     else
       render :new
     end
@@ -37,12 +33,25 @@ class PostsController < ApplicationController
   # create a show action
   def show
     @post = Post.find(params[:id])
+    @like = @post.likes
   end
 
   def like
     @post = Post.find(params[:id])
     current_user.likes.create(post: @post)
-    redirect_to posts_path(@post)
+    redirect_to user_post_path(@user, @post)
+  end
+
+  def comment
+    @post = Post.find(params[:id])
+    @comment = @post.comments.build(comment_params)
+    @comment.user = current_user
+
+    if @comment.save
+      redirect_to user_post_path(@user, @post)
+    else
+      render :show
+    end
   end
 
   private
@@ -59,7 +68,11 @@ class PostsController < ApplicationController
     @post = @user.posts.find(params[:id])
   end
 
-  def posts_params
-    params.require(:post).permit(:title, :text)
+  def post_params
+    params.require(:post).permit(:title, :text, :author_id)
+  end
+
+  def comment_params
+    params.require(:comment).permit(:text)
   end
 end
