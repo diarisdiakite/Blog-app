@@ -11,16 +11,17 @@
           <%= form.submit "Like" %>
         <% end %>
 
-        <%= form_with model: [@user, @post, Comment.new], url: comment_user_post_path(@user, @post), method: :post, remote: true do |form| %>
-          <%= form.hidden_field :author_id, value: current_user.id %>
-          <%= form.text_field :text %>
-          <%= form.submit "Comment the post" %>
-        <% end %>
-        
         <p>
           <br>
           <%= @post.text %>
         </p>
+
+        <%= form_with model: [@user, @post, Comment.new], url: comment_user_post_path(@user, @post), method: :post, remote: true do |form| %>
+          <%= form.hidden_field :author_id, value: current_user.id %>
+          <%= form.text_area :text %>
+          <%= form.submit "Comment the post" %>
+        <% end %>
+
         <small class="post-count"></small>
       </div>
       <div class="comments">

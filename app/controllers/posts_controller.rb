@@ -22,7 +22,7 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-  
+
     if @post.save
       redirect_to user_posts_path(current_user.id), notice: 'Post was successfully created'
     else
