@@ -5,13 +5,18 @@
         <h3><%= "Post #{@post.id} by #{@post.author.name}" %></h3>
         <p class="comments-posts-count">Comments: <%= @post.comments.count %>, Likes: <%= @post.likes.count %></p>
 
-        <button class="" type="submit">
-          <%= form_with url: like_user_post_path(@user.id, @post.id), method: :post, remote: true do |form| %>
-            <%= form.hidden_field :author_id, value: current_user.id %>
-            <%= form.hidden_field :post_id, value: @post.id %>
-            <%= form.submit "Like" %>
-          <% end %>
-        </button>
+        <%= form_with url: like_user_post_path(@user.id, @post.id), method: :post, remote: true do |form| %>
+          <%= form.hidden_field :author_id, value: current_user.id %>
+          <%= form.hidden_field :post_id, value: @post.id %>
+          <%= form.submit "Like" %>
+        <% end %>
+
+        <%= form_with model: [@user, @post, Comment.new], url: comment_user_post_path(@user, @post), method: :post, remote: true do |form| %>
+          <%= form.hidden_field :author_id, value: current_user.id %>
+          <%= form.text_field :text %>
+          <%= form.submit "Comment the post" %>
+        <% end %>
+        
         <p>
           <br>
           <%= @post.text %>
