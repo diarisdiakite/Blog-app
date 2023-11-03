@@ -3,7 +3,11 @@
   # get "/users/:id", to "users#show"
   
   resources :users, only: [:index, :show] do
-    resources :posts , only: [:index, :show]
+    resources :posts , only: [:index, :new, :create, :show] do
+      member do
+        post 'like'
+      end
+    end
   end
   
   # Defines the root path route ("/")
