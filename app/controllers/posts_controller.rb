@@ -20,10 +20,10 @@ class PostsController < ApplicationController
     @post = Post.new
 
     respond_to do |format|
-      format.html { render :new, locals: {post: @post, user: @user} }
+      format.html { render :new, locals: { post: @post, user: @user } }
     end
   end
-  
+
   def create
     @post = current_user.posts.build(posts_params)
 
