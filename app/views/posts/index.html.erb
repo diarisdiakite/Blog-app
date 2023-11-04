@@ -7,6 +7,9 @@
       <p class="post-count">Number of posts: <%= @user.posts.count %></p>
     </div>
   </div>
+  <div>
+    <%= link_to "Create New Post", new_user_post_path(@user) %>
+  </div>
   <ul class="user-posts">
     <% @posts.each_with_index do |post, index| %>
       <li>

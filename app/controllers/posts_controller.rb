@@ -20,15 +20,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    # @user = current_user
-    logger.info 'Triggered or not?'
     @post = Post.new(post_params.merge(author: current_user))
 
     if @post.save
-      logger.info "Creating post with title: #{@post.title}"
       redirect_to user_posts_path(current_user), notice: 'Post was successfully created'
     else
-      logger.info "Post not saved due to errors: #{@post.errors.full_messages}"
       render :new
     end
   end
