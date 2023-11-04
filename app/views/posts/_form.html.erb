@@ -1,12 +1,5 @@
-<%= form_with model: @post, url: new_user_post_path(current_user), method: :post do |form| %>
-  <!-- Form fields -->
-  <div class="form-group">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= form.label :text %>
-    <%= form.text_area :text, class: "form-control" %>
-  </div>
-  <%= form.submit 'Create Post', class: "btn btn-primary" %>
+<%= form_with(model: [@current_user, @post], url: user_posts_path(@current_user), method: :post) do |form| %>
+  <%= form.text_field :title %>
+  <%= form.text_area :text %>
+  <%= form.submit "Create new post" %>
 <% end %>

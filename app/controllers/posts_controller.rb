@@ -15,17 +15,20 @@ class PostsController < ApplicationController
   end
 
   def new
-    # @user = User.find(params[:user_id])
-    # @user = current_user
+    @user = current_user
     @post = Post.new
   end
 
   def create
-    @post = current_user.posts.build(post_params)
+    # @user = current_user
+    logger.info 'Triggered or not?'
+    @post = Post.new(post_params.merge(author: current_user))
 
     if @post.save
-      redirect_to user_posts_path(current_user.id), notice: 'Post was successfully created'
+      logger.info "Creating post with title: #{@post.title}"
+      redirect_to user_posts_path(current_user), notice: 'Post was successfully created'
     else
+      logger.info "Post not saved due to errors: #{@post.errors.full_messages}"
       render :new
     end
   end
@@ -69,7 +72,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :text, :author_id)
+    params.require(:post).permit(:title, :text)
   end
 
   def comment_params

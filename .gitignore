@@ -36,3 +36,5 @@
 /node_modules
 
 .env
+
+/app/controllers/posts_controller_brouillon.rb
