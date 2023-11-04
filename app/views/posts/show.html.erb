@@ -3,7 +3,7 @@
     <li class="">
       <div class="user-post">
         <h3><%= "Post #{@post.id} by #{@post.author.name}" %></h3>
-        <p class="comments-posts-count">Comments: <%= @post.comments.count %>, Likes: <%= @post.likes.count %></p>
+        <p class="comments-posts-count"><%= t('.Comments: ') %><%= @post.comments.count %>, <%= t('.Likes: ') %> <%= @post.likes.count %></p>
 
         <%= form_with url: like_user_post_path(@user.id, @post.id), method: :post, remote: true do |form| %>
           <%= form.hidden_field :author_id, value: current_user.id %>

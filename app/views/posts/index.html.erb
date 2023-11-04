@@ -4,11 +4,11 @@
     <div class="user-details">
       <h2 class="username"><%= @user.name %></h2>
       <br>
-      <p class="post-count">Number of posts: <%= @user.posts.count %></p>
+      <p class="post-count"><%= t('.Number of posts: ') %><%= @user.posts.count %></p>
     </div>
   </div>
   <div>
-    <%= link_to "Create A New Post", new_user_post_path(@user) %>
+    <%= link_to t('.Create A New Post'), new_user_post_path(@user) %>
   </div>
   <ul class="user-posts">
     <% @posts.each_with_index do |post, index| %>
@@ -16,7 +16,7 @@
         <div class="user-post">
           <h3><%= link_to "Post ##{post.id}: #{post.title}", user_post_path(post.author, post) %></h3>
           <p><%= post.text %></p>
-          <small class="post-count"><%= post.comments.count %> comments</small>
+          <small class="post-count"><%= post.comments.count %> <%= t('.comments') %></small>
         </div>
         <div class="comments">
           <ul>
@@ -30,5 +30,5 @@
   </ul>
 </div>
 <div class="button">
-  <button>Pagination</button>
+  <button><%= t('.Pagination') %></button>
 </div>
