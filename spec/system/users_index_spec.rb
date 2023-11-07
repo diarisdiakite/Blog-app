@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :system do
+RSpec.describe 'Users', type: :system do
   before do
     driven_by(:rack_test)
   end
 
-  it "displays usernames of other users" do
+  it 'displays usernames of other users' do
     visit users_path
     User.all.each do |user|
       expect(page).to have_content(user.username)
     end
   end
 
-  it "displays profiles pictures of other users" do
+  it 'displays profiles pictures of other users' do
     visit users_path
     User.all.each do |user|
       expect(page).to have_content(user.photo)
@@ -32,5 +32,4 @@ RSpec.describe "Users", type: :system do
     find("a[href='/users/#{user.id}']").click
     expect(page).to have_current_path(user_path(user))
   end
-
 end
