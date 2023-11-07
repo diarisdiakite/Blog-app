@@ -1,6 +1,6 @@
 <div class="user-list">
   <div class="user">
-    <img class="user-image" src="user.photo" alt="User Image" />
+    <img class="user-image" src="<%= @user.photo %>" alt="User Image" />
     <div class="user-details">
       <h2 class="username"><%= @user.name %></h2>
       <br>
@@ -16,7 +16,7 @@
   <ul class="user-posts">
     <% @posts.each do |post| %>
       <li class="user-post">
-        <h3><%= post.title %></h3>
+        <h3><%= link_to post.title, user_post_path(post.author, post) %></h3>
         <p><%= post.text %></p>
         <br>
         <small class="post-count"></small>
@@ -25,5 +25,5 @@
   </ul>
 </div>
 <div class="button">
-  <button><%= link_to "See all posts", user_posts_path(@user) %></button>
+  <button><%= link_to "View All Posts", user_posts_path(@user) %></button>
 </div>
