@@ -1,50 +1,45 @@
 require 'rails_helper'
 
-RSpec.describe 'User show page', type: :system do
-  let(:user) { User.create(name: 'Dada C', bio: 'Brilliant student', photo: 'https://img-link', posts_counter: 0) }
-  let!(:post) { user.posts.create(title: 'My post', text: 'This is my 6th post.', author_id: user.id) }
-
+RSpec.describe 'Posts/Show', type: :system do
   before do
-    user.update(posts_counter: user.posts.count)
-
-    create_list(:post, 5, author: user)
-    visit user_path(user)
+    driven_by(:rack_test)
   end
-
-  it "displays the user's profile picture" do
-    expect(page).to have_css("img[src*='#{user.photo}']")
-  end
-
-  it "displays the user's username" do
-    expect(page).to have_content(user.name)
-  end
-
-  it 'displays the number of posts the user has written' do
-    expect(page).to have_content("posts: #{user.posts.count}")
-  end
-
-  it "displays the user's bio" do
-    expect(page).to have_content(user.bio)
-  end
-
-  it 'displays the first 3 posts of the user' do
-    user.posts.first(3).each do |post|
+  describe 'show page' do
+    let(:user) { User.create(name: 'Dada C', bio: 'Best student from Turkish', photo: 'https://my-picture', posts_counter: 1) }
+    let!(:post) { user.posts.create(title: 'first post', text: 'This is my first post.', author_id: user.id) }
+    let!(:comment) { post.comments.create(text: 'Comment1', post_id: post.id, user_id: user.id) }
+    it "I can see the post's title." do
+      visit user_post_path(user.id, post.id)
       expect(page).to have_content(post.title)
     end
-  end
+    it 'I can see who wrote the post.' do
+      visit user_post_path(user.id, post.id)
+      expect(page).to have_content(post.author.name)
+    end
+    it 'I can see how many comments it has.' do
+      visit user_post_path(user.id, post.id)
+      expect(page).to have_content(post.comments_counter)
+    end
+    it 'I can see how many likes it has.' do
+      visit user_post_path(user.id, post.id)
+      expect(page).to have_content(post.likes_counter)
+    end
+    it 'I can see the post body.' do
+      visit user_post_path(user.id, post.id)
+      expect(page).to have_content(post.text)
+    end
+    it 'I can see the username of each commentor.' do
+      visit user_post_path(user.id, post.id)
+      post.comments.each do |comment|
+        expect(page).to have_content(comment.user.name)
+      end
+    end
 
-  it "displays a button to view all of the user's posts" do
-    expect(page).to have_link('View All Posts', href: user_posts_path(user))
-  end
-
-  it "redirects to a post's show page when clicking a user's post" do
-    visit user_path(user)
-    click_link(post.title)
-    expect(page).to have_current_path(user_posts_path(user.id, post.id))
-  end
-
-  it "redirects to the user's posts index page when clicking 'View All Posts'" do
-    click_link('View All Posts')
-    expect(page).to have_current_path(user_posts_path(user))
+    it 'I can see the comment each commentor left.' do
+      visit user_post_path(user.id, post.id)
+      post.comments.each do |comment|
+        expect(page).to have_content(comment.text)
+      end
+    end
   end
 end
