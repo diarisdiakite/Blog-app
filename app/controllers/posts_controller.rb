@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  load_and_authorize_resource
+  
   before_action :set_post, only: [:show]
 
   # Create an index action taking the user id as a parameter
@@ -47,10 +49,14 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+  end
+
   private
 
   def set_post
-    @post = @user.posts.find(params[:id])
+    # @post = @user.posts.find(params[:id])
+    @post = current_user.posts.find(params[:id])
   end
 
   def post_params
