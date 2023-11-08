@@ -40,7 +40,7 @@ RSpec.describe 'User show page', type: :system do
   it "redirects to a post's show page when clicking a user's post" do
     visit user_path(user)
     click_link(post.title)
-    expect(page).to have_current_path(user_posts_path(user.id, post.id))
+    expect(page).to have_current_path(user_post_path(user, post))
   end
 
   it "redirects to the user's posts index page when clicking 'View All Posts'" do
