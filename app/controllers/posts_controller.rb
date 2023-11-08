@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   load_and_authorize_resource
-  
+
   before_action :set_post, only: [:show]
 
   # Create an index action taking the user id as a parameter
@@ -50,6 +50,13 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = current_user.posts.find(params[:id])
+    if can?(:destroy, @post)
+      @post.destroy
+      redirect_to user_posts_path(current_user), notice: 'Post was successfully deleted'
+    else
+      redirect_to user_posts_path(current_user), alert: 'You are not authorized to delete this post'
+    end
   end
 
   private
@@ -65,15 +72,5 @@ class PostsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:text)
-  end
-
-  def destroy
-    @post = current_user.posts.find(params[:id])
-    if can?(:destroy, @post)
-      @post.destroy
-      redirect_to user_posts_path(current_user), notice: 'Post was successfully deleted'
-    else
-      redirect_to user_posts_path(current_user), alert: 'You are not authorized to delete this post'
-    end
   end
 end
