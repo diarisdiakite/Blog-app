@@ -1,6 +1,4 @@
 class PostsController < ApplicationController
-  before_action :current_user
-  before_action :set_user
   before_action :set_post, only: [:show]
 
   # Create an index action taking the user id as a parameter
@@ -50,14 +48,6 @@ class PostsController < ApplicationController
   end
 
   private
-
-  def set_user
-    @user = @current_user
-  end
-
-  def current_user
-    @current_user ||= User.first
-  end
 
   def set_post
     @post = @user.posts.find(params[:id])
