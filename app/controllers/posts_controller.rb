@@ -5,13 +5,9 @@ class PostsController < ApplicationController
 
   # Create an index action taking the user id as a parameter
   def index
+    @user = User.includes(posts: :comments).find(params[:user_id])
     @posts = @user.posts
-    @comments = []
-
-    @posts.each do |post|
-      comments = post.comments.limit(5)
-      @comments << comments
-    end
+    @comments = @posts.map { |post| post.comments.limit(5) }
   end
 
   def new
