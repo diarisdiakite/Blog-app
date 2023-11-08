@@ -83,3 +83,67 @@ li {
   height: 100%;
   display: flex;
 }
+
+.login-container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 1%;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form .field {
+  margin: 10px 0;
+}
+
+.login-form label {
+  font-weight: bold;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.login-form .login-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.login-form .login-button:hover {
+  background-color: #0056b3;
+}
+
+.login-form a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.login-form .text-center {
+  text-align: center;
+}
+
+.error-message {
+  color: #ff0000;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.login-form .form-element {
+  margin: 10px 0;
+}
