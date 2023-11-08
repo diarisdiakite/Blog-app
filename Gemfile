@@ -87,3 +87,7 @@ gem 'rubocop', '>= 1.0', '< 2.0'
 gem 'faker'
 
 gem 'devise'
+
+group :development do
+  gem 'letter_opener'
+end
