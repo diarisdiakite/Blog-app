@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :comments
   has_many :likes
 
+  before_validation :set_default_posts_counter
+
   validates :name, presence: true
   validates :posts_counter, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
@@ -29,5 +31,11 @@ class User < ApplicationRecord
     else
       puts 'User does not exist'
     end
+  end
+
+  private
+
+  def set_default_posts_counter
+    self.posts_counter ||= 0
   end
 end
