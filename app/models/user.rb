@@ -10,6 +10,17 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :posts_counter, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  # Adding the User::Roles
+  # The available roles
+
+  ROLES = %i[admin default].freeze
+
+  def is?(requested_role)
+    role == requested_role.to_s
+  end
+
+  # Adding other methods
+
   def find_posts_count
     posts_counter
   end
