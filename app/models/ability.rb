@@ -33,11 +33,13 @@ class Ability
       can :manage, :all
     else
       can :read, :all
-      can :create, [Post, Comment]
+      can :create, [Post, Comment, Like]
       can :update, Post, user_id: user.id
       can :update, Comment, user_id: user.id
-      can :destroy, Post, user_id: user.id
+      can :destroy, Post, author_id: user.id
       can :destroy, Comment, user_id: user.id
+      can :like, Post
+      can :comment, Post
     end
   end
 end

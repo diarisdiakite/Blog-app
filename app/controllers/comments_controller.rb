@@ -2,11 +2,11 @@ class CommentsController < ApplicationController
   load_and_authorize_resource
 
   def destroy
-    if can?(:destroy, @comment)
-      @comment.destroy
-      redirect_to user_post_path(@user, @post), notice: 'Comment was successfully deleted'
+    @comment = Comment.find(params[:id])
+    if @comment.destroy
+      redirect_to user_posts_path(current_user), notice: 'Post was successfully deleted.'
     else
-      redirect_to user_post_path(@user, @post), alert: 'You are not authorized to delete this comment'
+      redirect_to user_posts_path(current_user), alert: 'Failed to delete the post.'
     end
   end
 end

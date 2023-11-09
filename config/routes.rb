@@ -3,11 +3,12 @@
   devise_for :users
 
   resources :users do
-    resources :posts , only: [:index, :new, :create, :show] do
+    resources :posts, only: [:index, :new, :create, :show, :destroy] do
       member do
         post 'like'
         post 'comment'
       end
+      resources :comments, only: [:destroy]
     end
   end
   
