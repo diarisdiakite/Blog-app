@@ -17,11 +17,11 @@
 
 
   namespace :api do
-    namespace :V1 do
-      namespace :users do
+    namespace :v1 do
+      resources :users do
         resources :posts do
-          resource :comments
-          resource :likes
+          resources :comments
+          # resources :likes
         end
       end
     end
