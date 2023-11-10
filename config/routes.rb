@@ -14,4 +14,16 @@
   
   # Defines the root path route ("/")
   root to: 'users#index'
+
+
+  namespace :api do
+    namespace :V1 do
+      namespace :users do
+        resources :posts do
+          resource :comments
+          resource :likes
+        end
+      end
+    end
+  end
 end
