@@ -5,6 +5,13 @@ module Api
         @users = User.all
         render json: @users
       end
+
+      def show
+        @user = User.find(params[:id])
+        @posts = @user.posts.limit(3)
+
+        render json: @user
+      end
     end
   end
 end
