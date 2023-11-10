@@ -92,4 +92,4 @@ gem 'devise'
 
 gem 'cancancan'
 
-gem "active_model_serializers", "~> 0.10.14"
+gem 'active_model_serializers', '~> 0.10.14'
