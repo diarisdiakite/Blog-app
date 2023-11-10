@@ -11,13 +11,19 @@
           <%= form.submit "Like" %>
         <% end %>
 
+        <% if current_user == @post.author || can?(:destroy, @post) %>
+          <%= form_with(model: [@user, @post], method: :delete, local: true, data: { confirm: 'Are you sure?' }) do |form| %>
+            <%= form.submit "Delete Post" %>
+          <% end %>
+        <% end %>
+
         <p>
           <br>
           <%= @post.text %>
         </p>
 
         <%= form_with model: [@user, @post, Comment.new], url: comment_user_post_path(@user, @post), method: :post, remote: true do |form| %>
-          <%= form.hidden_field :author_id, value: current_user.id %>
+          <%= form.hidden_field :user_id, value: current_user.id %>
           <%= form.text_area :text %>
           <%= form.submit "Comment the post" %>
         <% end %>
@@ -28,6 +34,9 @@
         <ul>
           <% @post.comments.each do |comment| %>
             <li><%= "#{comment.user.name}: #{comment.text}" %></li>
+            <% if can? :destroy, comment %>
+              <%= button_to 'Delete', user_post_comment_path(user_id: @user.id, post_id: @post.id, id: comment.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
           <% end %>
         </ul>
       </div> 

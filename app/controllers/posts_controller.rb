@@ -1,7 +1,9 @@
 class PostsController < ApplicationController
-  before_action :current_user
-  before_action :set_user
-  before_action :set_post, only: [:show]
+  load_and_authorize_resource
+
+  before_action :authenticate_user!
+  before_action :set_post, only: %i[show destroy like comment]
+  # before_action :set_post, only: [:show]
 
   # Create an index action taking the user id as a parameter
   def index
@@ -28,17 +30,20 @@ class PostsController < ApplicationController
   # create a show action
   def show
     @post = Post.find(params[:id])
+    @user = @post.author
     @like = @post.likes
   end
 
   def like
+    authorize! :like, @post, message: 'You are not authorized to like this post.'
     @post = Post.find(params[:id])
     current_user.likes.create(post: @post)
-    redirect_to user_post_path(@user, @post)
+    redirect_to user_post_path(@post.author, @post)
   end
 
   def comment
     @post = Post.find(params[:id])
+    @user = @post.author
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
@@ -49,18 +54,25 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    logger.info 'Am I triggered?'
+    @post = current_user.posts.find(params[:id])
+    if can?(:destroy, @post)
+      @post.destroy
+      redirect_to user_posts_path(current_user), notice: 'Post was successfully deleted'
+    else
+      redirect_to user_posts_path(current_user), alert: 'You are not authorized to delete this post'
+    end
+  end
+
   private
 
-  def set_user
-    @user = @current_user
-  end
-
-  def current_user
-    @current_user ||= User.first
-  end
-
   def set_post
-    @post = @user.posts.find(params[:id])
+    puts "Current User ID: #{current_user.id}"
+    @post = current_user.posts.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    puts "Post not found for current user with ID #{current_user.id} and post ID #{params[:id]}"
+    redirect_to root_path, alert: 'Post not found'
   end
 
   def post_params
