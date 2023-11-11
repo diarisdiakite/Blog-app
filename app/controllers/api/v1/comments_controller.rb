@@ -27,11 +27,11 @@ module Api
       rescue JWT::DecodeError, ActiveRecord::RecordNotFound
         nil
       end
-    
+
       def authenticate_user!
         render json: { error: 'Unauthorized' }, status: :unauthorized unless logged_in_user
       end
-    
+
       def decoded_token
         token = request.headers['Authorization'].to_s.split.last
         JWT.decode(token, Rails.application.secret_key_base)[0]
