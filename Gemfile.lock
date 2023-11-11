@@ -123,8 +123,11 @@ GEM
       i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
     ffi (1.16.3-x64-mingw-ucrt)
+    gdata (1.1.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    gwt (0.0.2)
+      gdata
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -339,6 +342,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  gwt
   jbuilder
   jquery-rails
   jsbundling-rails
