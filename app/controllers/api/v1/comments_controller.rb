@@ -1,7 +1,8 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      skip_before_action :verify_authenticity_token, only: [:create]
+      skip_before_action :verify_authenticity_token, only: [:create], if: -> { request.format.json? }
+      before_action :authenticate_user!, only: [:create]
 
       def index
         # Trying without instance variables
@@ -10,18 +11,36 @@ module Api
       end
 
       def create
-        comment = Comment.new(comment_params)
+        @post = Post.find(params[:post_id])
+        @user = logged_in_user
+        @comment = @post.comments.new(comment_params.merge(user_id: @user.id))
         if comment.save
-          render json: comment, status: :created
+          render json: { success: 'Comment succesfully added!' }, status: :created
         else
-          render json: { error: comment.errors.full_messages }, status: :unprocessable_entity
+          render json: { error: comment.errors.full_messages.join(', ') }, status: :unprocessable_entity
         end
+      end
+
+      def logged_in_user
+        user_id = decoded_token['user_id']
+        User.find_by(id: user_id)
+      rescue JWT::DecodeError, ActiveRecord::RecordNotFound
+        nil
+      end
+    
+      def authenticate_user!
+        render json: { error: 'Unauthorized' }, status: :unauthorized unless logged_in_user
+      end
+    
+      def decoded_token
+        token = request.headers['Authorization'].to_s.split.last
+        JWT.decode(token, Rails.application.secret_key_base)[0]
       end
 
       private
 
       def comment_params
-        params.require(:comment).permit(:user_id, :post_id, :content)
+        params.permit(:text)
       end
     end
   end
